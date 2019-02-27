@@ -14,13 +14,12 @@ public class Maze {
     int r = 0;
     int r2 = 0;
     int c = 0;
-    //String save = "";
+    //read through the text, initialize the right size array
     while (inf.hasNextLine()) {
       r++;
       String line = inf.nextLine();
-      //save = line + "\n";
       c = line.length();
-    } //read through the initialize the right size array
+    }
     m = new char[r][c];
 
     //read again to fill in the array spots.
@@ -34,6 +33,7 @@ public class Maze {
       r2++;
     }
   }
+
   public String toString() {
     String out = "";
     for (int i = 0; i < m.length; i++) {
@@ -44,6 +44,7 @@ public class Maze {
     }
     return out;
   }
+
   public static void main(String[] args) {
     if (args.length == 1) {
       try {
@@ -53,6 +54,9 @@ public class Maze {
         System.out.println("File does not exist");
 
       }
+    }
+    else {
+      System.out.println("I need a maze file to operate! Enter one in as an argument!");
     }
   }
 
