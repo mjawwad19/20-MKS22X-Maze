@@ -2,11 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Maze {
-  private int sr, sc, er, ec, r, c;
+  private int sr, sc, er, ec, r, c; //save locations of start, end, dimension from reading
   private char[][] maze;
   private File text;
   private boolean animate;//false by default
-  private int[] DM = {0,1, 1,0, 0,-1, -1,0}; //north east south west
+  private int[] DM = {0,1, 1,0, 0,-1, -1,0}; //north east south west must be counter clockwise
 
   /*
   Constructor loads a maze text file, and sets animate to false by default.
@@ -122,7 +122,7 @@ public class Maze {
     if(animate){
       clearTerminal();
       System.out.println(this);
-      wait(50);
+      wait(100);
     }
     //COMPLETE SOLVE
     int newR, newC, steps;
@@ -152,7 +152,6 @@ public class Maze {
         System.out.println(a);
       }catch (FileNotFoundException e) {
         System.out.println("File does not exist");
-
       }
     }
     else {
