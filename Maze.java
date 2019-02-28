@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Maze {
+  private int sr, sc, er, ec, r, c;
   private char[][] maze;
   private File text;
   private boolean animate;//false by default
@@ -22,34 +23,43 @@ public class Maze {
     wrArray();
 
   }
-  private void cPoss() throws FileNotFoundException {
-    int[] s = fStart();
-    int
-  }
   private void wrArray() throws FileNotFoundException {
     Scanner inf = new Scanner(text);
     int r = 0;
-    int r2 = 0;
     int c = 0;
     //read through the text, initialize the right size array
     while (inf.hasNextLine()) {
       r++;
       String line = inf.nextLine();
-      c = line.length();
+      if (line.length() > c) c = line.length();
     }
     maze = new char[r][c];
 
     //read again to fill in the array spots.
+    boolean sCheck = false;
+    boolean eCheck = false;
+
     Scanner in = new Scanner(text);
-    while (in.hasNextLine()) {
+    for (int row = 0; row < r; row++) {
       String line = in.nextLine();
-      for (int i = 0; i < line.length(); i++) {
-        maze[r2][i] = line.charAt(i);
-        //System.out.println(line.charAt(i));
+      for (int col = 0; col < c; col++) {
+        char ch = line.charAt(col);
+        if (ch == 'S') {
+          sCheck = true;
+          sr = row;
+          sc = col;
+        }
+        if (ch == 'E') {
+          eCheck = true;
+          er = row;
+          sc = col;
+        }
+        maze[row][col] = ch;
       }
-      r2++;
     }
+    if (!(eCheck && sCheck)) throw new IllegalStateException("missing End or Start");
   }
+
   private void wait(int millis){
      try {
          Thread.sleep(millis);
@@ -59,7 +69,7 @@ public class Maze {
    }
   public void setAnimate(boolean b){
     animate = b;
-}
+  }
   public void clearTerminal(){
     //erase terminal, go to top left of screen.
     System.out.println("\033[2J\033[1;1H");
@@ -85,27 +95,8 @@ public class Maze {
   Note the helper function has the same name, but different parameters.
   Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
   */
-  private int[] fStart() {
-    int[] loc = new int[2]; //store location
-    for (int r = 0; r < maze.length; r++) {
-      for (int c = 0; c < maze[r].length; c++) {
-        if (maze[r][c] == 'S') {
-          loc[0] = r;
-          loc[1] = c;
-          return loc;
-        }
-        if (r = maze.length -1 && c = maze[r].length -1 && maze[maze.length -1][maze[r].length -1] != 'S') {
-          loc[0] = -1;
-          loc[1] = -1;
-          return loc;
-        }
-      }
-    }
-    return loc;
-  }
   public int solve(){
-    int[] ary = fStart();
-    return solve(ary[0], ary[1]);
+    return solveH(sr, sc);
     }
   //find the location of the S.
   //erase the S
@@ -123,7 +114,7 @@ public class Maze {
   All visited spots that were not part of the solution are changed to '.'
   All visited spots that are part of the solution are changed to '@'
   */
-  private int solve(int row, int col){ //you can add more parameters since this is private
+  private int solveH(int row, int col){ //you can add more parameters since this is private
     //automatic animation! You are welcome.
     if(animate){
       clearTerminal();
