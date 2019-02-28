@@ -6,21 +6,23 @@ public class Maze {
   private char[][] maze;
   private File text;
   private boolean animate;//false by default
+  private int[] DM = {0,1, 1,0, 0,-1, -1,0}; //north east south west
 
-    /*
-    Constructor loads a maze text file, and sets animate to false by default.
-    1. The file contains a rectangular ascii maze, made with the following 4 characters:
-    '#' - Walls - locations that cannot be moved onto
-    ' ' - Empty Space - locations that can be moved onto
-    'E' - the location of the goal (exactly 1 per file)
-    'S' - the location of the start(exactly 1 per file)
-    2. The maze has a border of '#' around the edges. So you don't have to check for out of bounds!
-    3. When the file is not found OR the file is invalid (not exactly 1 E and 1 S) then:
-    throw a FileNotFoundException or IllegalStateException
-    */
+  /*
+  Constructor loads a maze text file, and sets animate to false by default.
+  1. The file contains a rectangular ascii maze, made with the following 4 characters:
+  '#' - Walls - locations that cannot be moved onto
+  ' ' - Empty Space - locations that can be moved onto
+  'E' - the location of the goal (exactly 1 per file)
+  'S' - the location of the start(exactly 1 per file)
+  2. The maze has a border of '#' around the edges. So you don't have to check for out of bounds!
+  3. When the file is not found OR the file is invalid (not exactly 1 E and 1 S) then:
+  throw a FileNotFoundException or IllegalStateException
+  */
   public Maze(String file) throws FileNotFoundException {
     text = new File(file);
     wrArray();
+    setAnimate(true);
 
   }
   private void wrArray() throws FileNotFoundException {
@@ -49,11 +51,13 @@ public class Maze {
           sr = row;
           sc = col;
         }
+        //finds the location of S
         if (ch == 'E') {
           eCheck = true;
           er = row;
           sc = col;
         }
+        //finds the location of E
         maze[row][col] = ch;
       }
     }
@@ -98,8 +102,7 @@ public class Maze {
   public int solve(){
     return solveH(sr, sc);
     }
-  //find the location of the S.
-  //erase the S
+  //erase the S if fail
   //and start solving at the location of the s.
   //return solve(???,???);
 
@@ -114,21 +117,37 @@ public class Maze {
   All visited spots that were not part of the solution are changed to '.'
   All visited spots that are part of the solution are changed to '@'
   */
-  private int solveH(int row, int col){ //you can add more parameters since this is private
+  private int solveH(int row, int col){
     //automatic animation! You are welcome.
     if(animate){
       clearTerminal();
       System.out.println(this);
-      wait(20);
+      wait(50);
     }
     //COMPLETE SOLVE
-    return -1; //so it compiles
+    int newR, newC, steps;
+    maze[row][col] = '@';;
+    for (int i = 0; i < 8; i+= 2) {
+      newR = DM[i] + row;
+      newC = DM[i+1] + col;
+      if (maze[newR][newC] == ' ' ) {
+        steps = solveH(newR, newC);
+        if (steps != -1) return steps + 1; // +1 because our original location is 1 step!
+      }
+      else if (newR == er && newC == ec) { // solved
+        return 1;
+      }
+    }
+    maze[row][col] = '.'; //mark off visited.
+    return -1; //no solution found
   }
 
   public static void main(String[] args) {
     if (args.length == 1) {
       try {
         Maze a = new Maze(args[0]);
+        //System.out.println(a);
+        System.out.println(a.solve());
         System.out.println(a);
       }catch (FileNotFoundException e) {
         System.out.println("File does not exist");
