@@ -126,17 +126,18 @@ public class Maze {
     }
     //COMPLETE SOLVE
     int newR, newC, steps;
-    maze[row][col] = '@';;
+    maze[row][col] = '@';
     for (int i = 0; i < 8; i+= 2) {
       newR = DM[i] + row;
       newC = DM[i+1] + col;
-      if (maze[newR][newC] == ' ' ) {
+      if (maze[newR][newC] == 'E') {
+        maze[newR][newC] = '@';
+        return 1;
+      } //thanks for Ethan for pointing out that order of conditions matters here.
+      if (maze[newR][newC] == ' ' /*|| maze[newR][newC] == 'E'*/) {
         steps = solveH(newR, newC);
         if (steps != -1) return steps + 1; // +1 because our original location is 1 step!
-      }
-      else if (newR == er && newC == ec) { // solved
-        return 1;
-      }
+        }
     }
     maze[row][col] = '.'; //mark off visited.
     return -1; //no solution found
