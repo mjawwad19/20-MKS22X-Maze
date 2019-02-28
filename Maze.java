@@ -2,11 +2,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Maze {
+  
   private int sr, sc, er, ec, r, c; //save locations of start, end, dimension from reading
   private char[][] maze;
   private File text;
   private boolean animate;//false by default
-  private int[] DM = {0,1, 1,0, 0,-1, -1,0}; //north east south west must be counter clockwise
+  private int[] DM = {0,1, 1,0, 0,-1, -1,0};
 
   /*
   Constructor loads a maze text file, and sets animate to false by default.
@@ -23,8 +24,8 @@ public class Maze {
     text = new File(file);
     wrArray();
     setAnimate(true);
-
   }
+
   private void wrArray() throws FileNotFoundException {
     Scanner inf = new Scanner(text);
     int r = 0;
@@ -101,10 +102,7 @@ public class Maze {
   */
   public int solve(){
     return solveH(sr, sc);
-    }
-  //erase the S if fail
-  //and start solving at the location of the s.
-  //return solve(???,???);
+  }
 
   /*
   Recursive Solve function:
@@ -137,7 +135,7 @@ public class Maze {
       if (maze[newR][newC] == ' ' /*|| maze[newR][newC] == 'E'*/) {
         steps = solveH(newR, newC);
         if (steps != -1) return steps + 1; // +1 because our original location is 1 step!
-        }
+      }
     }
     maze[row][col] = '.'; //mark off visited.
     return -1; //no solution found
@@ -158,5 +156,4 @@ public class Maze {
       System.out.println("I need a maze file to operate! Enter one in as an argument!");
     }
   }
-
 }
