@@ -53,7 +53,7 @@ public class Maze {
     Scanner in = new Scanner(text);
     for (int row = 0; row < r; row++) {
       String line = in.nextLine();
-      for (int col = 0; col < c; col++) {
+      for (int col = 0 ; col < c; col++) {
         char ch = line.charAt(col);
         //System.out.println(line);
         if (ch == 'S') {
@@ -66,7 +66,7 @@ public class Maze {
         if (ch == 'E') {
           eCheck = true;
           er = row;
-          sc = col;
+          ec = col;
         }
         //finds the location of E
         maze[row][col] = ch;
@@ -156,7 +156,7 @@ public class Maze {
       try {
         Maze a = new Maze(args[0]);
         //System.out.println(a);
-        System.out.println(Arrays.toString(a.S()));
+        //System.out.println(Arrays.toString(a.S()));
         System.out.println(a.solve());
         System.out.println(a);
       }catch (FileNotFoundException e) {
