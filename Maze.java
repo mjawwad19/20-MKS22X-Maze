@@ -1,8 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.*;
 public class Maze {
-  
+
   private int sr, sc, er, ec, r, c; //save locations of start, end, dimension from reading
   private char[][] maze;
   private File text;
@@ -26,6 +27,13 @@ public class Maze {
     setAnimate(true);
   }
 
+  public int[] S() {
+    int[] sLoc = new int[2];
+    sLoc[0] = sr;
+    sLoc[1] = sc;
+    return sLoc;
+  }
+
   private void wrArray() throws FileNotFoundException {
     Scanner inf = new Scanner(text);
     int r = 0;
@@ -47,10 +55,12 @@ public class Maze {
       String line = in.nextLine();
       for (int col = 0; col < c; col++) {
         char ch = line.charAt(col);
+        //System.out.println(line);
         if (ch == 'S') {
           sCheck = true;
           sr = row;
           sc = col;
+          //System.out.println(sr + " " + sc);
         }
         //finds the location of S
         if (ch == 'E') {
@@ -146,6 +156,7 @@ public class Maze {
       try {
         Maze a = new Maze(args[0]);
         //System.out.println(a);
+        System.out.println(Arrays.toString(a.S()));
         System.out.println(a.solve());
         System.out.println(a);
       }catch (FileNotFoundException e) {
