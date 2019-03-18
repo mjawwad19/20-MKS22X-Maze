@@ -24,15 +24,15 @@ public class Maze {
   public Maze(String file) throws FileNotFoundException {
     text = new File(file);
     wrArray();
-    setAnimate(true);
+    //setAnimate(true);
   }
 
-  public int[] S() {
+  /*public int[] S() {
     int[] sLoc = new int[2];
     sLoc[0] = sr;
     sLoc[1] = sc;
     return sLoc;
-  }
+  }*/
 
   private void wrArray() throws FileNotFoundException {
     Scanner inf = new Scanner(text);
