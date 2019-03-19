@@ -139,7 +139,7 @@ public class Maze {
       newR = DM[i] + row;
       newC = DM[i+1] + col;
       if (maze[newR][newC] == 'E') {
-        maze[newR][newC] = '@';
+        //maze[newR][newC] = '@';
         return 1;
       } //thanks for Ethan for pointing out that order of conditions matters here.
       if (maze[newR][newC] == ' ' /*|| maze[newR][newC] == 'E'*/) {
